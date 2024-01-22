@@ -1,11 +1,13 @@
 import Phaser from 'phaser'
 
-import PlatformerGameScene from './scenes/PlatformerGame'
+// import PlatformerGameScene from './scenes/PlatformerGame'
+import newPlatformerGameScene from './scenes/newPlatformerGameScene'
+
 
 const config = {
 	type: Phaser.AUTO,
 	parent: 'app',
-	width: 800,
+	width: 1300,
 	height: 600,
 	physics: {
 		default: 'arcade',
@@ -13,7 +15,7 @@ const config = {
 			gravity: { y: 200 },
 		},
 	},
-	scene: [PlatformerGameScene],
+	scene: [newPlatformerGameScene],
 }
 
 export default new Phaser.Game(config)

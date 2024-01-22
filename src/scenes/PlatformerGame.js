@@ -44,13 +44,12 @@ Phaser.Scene
         this.load.image('Fruits', 'images/Items/Fruits/Pineapple.png')
         this.load.image('Fruits', 'images/Items/Fruits/Strawberry.png')
 
-        this.load.image('Main Characters', 'images/Main Characters/Mask Dude.png')
         this.load.image('Main Characters', 'images/Main Characters/Ninja Frog.png')
-        this.load.image('Main Characters', 'images/Main Characters/Pink Man.png')
-        this.load.image('Main Characters', 'images/Main Characters/Virtual Guy.png')
 
-        this.load.image('Main Characters', 'images/Main Characters/Appearing (96x96).png')
-        this.load.image('Main Characters', 'images/Main Characters/Desappearing (96x96).png')
+        this.load.image('Main Characters')
+
+        this.load.image('Main Characters Appearing', 'images/Main Characters/Appearing (96x96).png')
+        this.load.image('Main Characters Disappearing', 'images/Main Characters/Desappearing (96x96).png')
 
         this.load.image('Buttons, images/Menu/Buttons/Achievements.png')
         this.load.image('Buttons, images/Menu/Buttons/Back.png')
