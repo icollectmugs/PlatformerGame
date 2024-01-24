@@ -10,6 +10,10 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.player = undefined
         this.cursor = undefined
         this.platform = undefined 
+        this.Pineapple = undefined
+        this.Apple = undefined
+        this.platform1 = undefined
+        this.platform2 = undefined
     }
 
     preload(){
@@ -23,27 +27,60 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.load.spritesheet('Terrain', 'images/Terrain/Terrain (16x16).png',
         {frameWidth:48, frameHeight:64})
         this.load.image('Lava', 'images/Lava.jpg')
+        this.load.spritesheet('Pineapple', 'images/Items/Fruits/Pineapple.png',
+        {frameWidth:32, frameHeight:32})
+        this.load.spritesheet('Apple', 'images/Items/Fruits/Apple.png',
+        {frameWidth:32, frameHeight:32})
+
+        this.load.audio('bgsound', 'sfx/movingrightalong.wav')
+        this.load.audio('jump', 'sfx/Jump-SoundBible.com-1007297584.mp3')
+        this.load.audio('collecting', 'sfx/Picked Coin Echo 2.wav')
+        this.load.audio('menu', 'sfx/Picked Coin Echo 2.wav')
     }
 
     create(){
         this.addBackground()
         
         this.groundPlatform()
+        this.createPlatform1()
+        this.createPlatform2()
         this.player=this.physics.add.sprite(100, 450, 'Main-Character').setScale(1.5)
         this.player.setCollideWorldBounds(true)
-        // this.physics.add.collider(this.player, this.platform)
         this.physics.add.collider(this.player, this.platform)
-
+        this.physics.add.collider(this.player, this.platform1)
+        this.physics.add.collider(this.player, this.platform2)
         this.createAnimations()
         this.cursor=this.input.keyboard.createCursorKeys()
 
-        this.physics.add.staticGroup({
-            key: 'Terrain',
-            frame: 2, 
-            repeat: 2,
-            setXY: {x: 62, y: 250,stepX: 48}
+        this.Pineapple = this.physics.add.group({
+            key:'Pineapple',
+            repeat: 10,
+            setXY: {x:40, y:0, stepX:60}
         })
-        
+        this.Pineapple.children.iterate(Pineapple=> {
+            Pineapple.setScale(2)
+        })
+        this.Apple = this.physics.add.group({
+            key:'Apple',
+            repeat: 15,
+            setXY: {x:50, y:0, stepX:70}
+        })
+        this.Apple.children.iterate(Apple=> {
+            Apple.setScale(2)
+        })
+        this.physics.add.collider(this.Pineapple, this.platform)
+        this.physics.add.collider(this.Apple, this.platform)
+        this.physics.add.collider(this.Pineapple, this.platform1)
+        this.physics.add.collider(this.Apple, this.platform1)
+        this.physics.add.collider(this.Pineapple, this.platform2)
+        this.physics.add.collider(this.Apple, this.platform2)
+
+        this.Pineapple.children.iterate(function(child){
+            child.setBounceY(0.2)
+        })
+        this.Apple.children.iterate(function(child){
+            child.setBounceY(0.2)
+        })
     };
 
     update(){
@@ -61,15 +98,43 @@ export default class newPlatformerGameScene extends Phaser.Scene {
     }
 
     groundPlatform(){
-        this.platform = this.physics.add.staticGroup({
-            key: 'Lava',
-            repeat: 22,
-            setXY: {x: 30, y:575, stepX: 58}
-        })
-        this.platform.children.iterate(ground => {
-            ground.setScale(0.2)
-        })
+        // this.platform = this.physics.add.staticGroup({
+        //     key: 'Lava',
+        //     repeat: 22,
+        //     setXY: {x: 30, y:575, stepX: 58}
+        // })
+        // this.platform.children.iterate(ground => {
+        //     ground.setScale(0.2)
+        // })
         // this.platform.create(30, 575, 'Lava').setScale(0.2)
+
+        this.platform = this.physics.add.staticGroup()
+            this.platform.create(25, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(75, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(125, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(175, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(225, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(275, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(325, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(375, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(425, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(475, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(525, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(575, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(625, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(675, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(725, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(775, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(825, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(875, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(925, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(975, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1025, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1075, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1125, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1175, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1225, 575, 'Lava').setScale(0.2).refreshBody()
+            this.platform.create(1275, 575, 'Lava').setScale(0.2).refreshBody()
 
         
     }
@@ -162,5 +227,22 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         }
     }   
 
-    
+    // PLATFORM1
+    createPlatform1(){
+        this.platform1 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 2,
+            setXY: {x: 62, y: 450,stepX: 48}
+        })
+    }   
+    // PLATFORM2
+    createPlatform2(){
+        this.platform2 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 4,
+            setXY: {x: 300, y: 420,stepX: 48}
+        })
+    }   
 }
