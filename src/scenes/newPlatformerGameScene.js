@@ -13,7 +13,14 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.Pineapple = undefined
         this.Apple = undefined
         this.platform1 = undefined
+        this.platform1a = undefined
         this.platform2 = undefined
+        this.platform3 = undefined
+        this.platform3a = undefined
+        this.platform3a = undefined
+        this.platform4 = undefined
+        this.platform4a = undefined
+        this.platform5 = undefined
     }
 
     preload(){
@@ -26,6 +33,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         {frameWidth:32, frameHeight:32})
         this.load.spritesheet('Terrain', 'images/Terrain/Terrain (16x16).png',
         {frameWidth:48, frameHeight:64})
+        this.load.spritesheet('Terrain2', 'images/Terrain/Terrain (16x16).png',
+        {frameWidth:48, frameHeight:32})
         this.load.image('Lava', 'images/Lava.jpg')
         this.load.spritesheet('Pineapple', 'images/Items/Fruits/Pineapple.png',
         {frameWidth:32, frameHeight:32})
@@ -43,12 +52,28 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         
         this.groundPlatform()
         this.createPlatform1()
+        this.createPlatform1a()
+        this.createPlatform1ab()
         this.createPlatform2()
-        this.player=this.physics.add.sprite(100, 450, 'Main-Character').setScale(1.5)
+        this.createPlatform2a()
+        this.createPlatform2b()
+        this.createPlatform3()
+        this.createPlatform3a()
+        this.createPlatform4()
+        this.createPlatform4a()
+        this.createPlatform5()
+
+        this.player=this.physics.add.sprite(100, 300, 'Main-Character').setScale(1.5)
         this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.platform)
         this.physics.add.collider(this.player, this.platform1)
+        this.physics.add.collider(this.player, this.platform1a)
         this.physics.add.collider(this.player, this.platform2)
+        this.physics.add.collider(this.player, this.platform3)
+        this.physics.add.collider(this.player, this.platform3a)
+        this.physics.add.collider(this.player, this.platform4)
+        this.physics.add.collider(this.player, this.platform4a)
+        this.physics.add.collider(this.player, this.platform5)
         this.createAnimations()
         this.cursor=this.input.keyboard.createCursorKeys()
 
@@ -63,7 +88,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.Apple = this.physics.add.group({
             key:'Apple',
             repeat: 15,
-            setXY: {x:50, y:0, stepX:70}
+            setXY: {x:50, y:0, stepX:90}
         })
         this.Apple.children.iterate(Apple=> {
             Apple.setScale(2)
@@ -74,6 +99,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.physics.add.collider(this.Apple, this.platform1)
         this.physics.add.collider(this.Pineapple, this.platform2)
         this.physics.add.collider(this.Apple, this.platform2)
+        this.physics.add.collider(this.Pineapple, this.platform3)
+        this.physics.add.collider(this.Apple, this.platform3)
 
         this.Pineapple.children.iterate(function(child){
             child.setBounceY(0.2)
@@ -81,6 +108,21 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.Apple.children.iterate(function(child){
             child.setBounceY(0.2)
         })
+
+        this.physics.add.overlap(
+            this.player,
+            this.Pineapple,
+            this.collectPineapple,
+            null,
+            this
+        )
+        this.physics.add.overlap(
+            this.player,
+            this.Apple,
+            this.collectApple,
+            null,
+            this
+        )
     };
 
     update(){
@@ -191,15 +233,15 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         }
 
          // Player Movement
-        if (this.cursor.left.isDown) {
-            this.player.setVelocity(-120, 500).setFlipX(true);
-            this.player.anims.play('left', true);
-        } else if (this.cursor.right.isDown) {
-            this.player.setVelocity(120, 500).setFlipX(false);
-            this.player.anims.play('main-player-run-right', true);
-        } else {
-            this.player.setVelocityX(0);
-        }
+        // if (this.cursor.left.isDown) {
+        //     this.player.setVelocity(-120, 500).setFlipX(true);
+        //     this.player.anims.play('left', true);
+        // } else if (this.cursor.right.isDown) {
+        //     this.player.setVelocity(120, 500).setFlipX(false);
+        //     this.player.anims.play('main-player-run-right', true);
+        // } else {
+        //     this.player.setVelocityX(0);
+        // }
         
         let isJumping = false;
         // Vertical Movement (Jump)
@@ -225,15 +267,45 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         if (!this.cursor.left.isDown && !this.cursor.right.isDown && !this.cursor.up.isDown) {
             this.player.anims.play('main-player-standby', true);
         }
-    }   
+    }
+    
+    //COLLECT PINEAPPLE
+    collectPineapple(player, Pineapple){
+        Pineapple.destroy()
+        this.sound.play('collecting')
+    }
+    //COLLECT APPLE
+    collectApple(player, Apple){
+        Apple.destroy()
+        this.sound.play('collecting')
+    }
 
     // PLATFORM1
-    createPlatform1(){
-        this.platform1 = this.physics.add.staticGroup({
+    createPlatform1a(){
+        this.platform1a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 2, 
             repeat: 2,
             setXY: {x: 62, y: 450,stepX: 48}
+        })
+    }   
+    createPlatform1ab(){
+        this.platform1ab = this.physics.add.staticGroup({
+            key: 'Terrain2',
+            frame: 3, 
+            repeat: 1,
+            setXY: {x: 1095, y: 340,stepX: 48}
+        })
+        this.platform1ab.children.iterate(ab => {
+            ab.setScale(1.5)
+        })
+    }   
+    createPlatform1(){
+        this.platform1 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 62, y: 498,stepX: 48}
         })
     }   
     // PLATFORM2
@@ -241,8 +313,64 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.platform2 = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 2, 
-            repeat: 4,
+            repeat: 2,
             setXY: {x: 300, y: 420,stepX: 48}
+        })
+    }   
+    createPlatform2a(){
+        this.platform2a = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 300, y: 465,stepX: 48}
+        })
+    }   
+    createPlatform2b(){
+        this.platform2b = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            setXY: {x: 348, y: 513}
+        })
+    }   
+    // PLATFORM2
+    createPlatform3(){
+        this.platform3 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 2,
+            setXY: {x: 550, y: 400,stepX: 48}
+        })
+    }   
+    createPlatform3a(){
+        this.platform3a = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 550, y: 448,stepX: 48}
+        })
+    }   
+    createPlatform4(){
+        this.platform4 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 2,
+            setXY: {x: 800, y: 400,stepX: 48}
+        })
+    }   
+    createPlatform4a(){
+        this.platform4 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 800, y: 448,stepX: 48}
+        })
+    }   
+    createPlatform5(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 4,
+            setXY: {x: 1083, y: 300,stepX: 48}
         })
     }   
 }
