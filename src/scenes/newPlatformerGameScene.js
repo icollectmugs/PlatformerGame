@@ -14,6 +14,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.Apple = undefined
         this.platform1 = undefined
         this.platform1a = undefined
+        this.platform1b = undefined
+        this.platform1c = undefined
         this.platform2 = undefined
         this.platform3 = undefined
         this.platform3a = undefined
@@ -21,6 +23,12 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.platform4 = undefined
         this.platform4a = undefined
         this.platform5 = undefined
+        this.platform5a = undefined
+        this.platform5b = undefined
+        this.platform5c = undefined
+        this.platform5d = undefined
+        this.platform6 = undefined
+        this.platform6a = undefined
     }
 
     preload(){
@@ -53,7 +61,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.groundPlatform()
         this.createPlatform1()
         this.createPlatform1a()
-        this.createPlatform1ab()
+        this.createPlatform1b()
+        this.createPlatform1c()
         this.createPlatform2()
         this.createPlatform2a()
         this.createPlatform2b()
@@ -62,18 +71,32 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.createPlatform4()
         this.createPlatform4a()
         this.createPlatform5()
+        this.createPlatform5a()
+        this.createPlatform5b()
+        this.createPlatform5c()
+        this.createPlatform5d()
+        this.createPlatform6()
+        this.createPlatform6a()
 
         this.player=this.physics.add.sprite(100, 300, 'Main-Character').setScale(1.5)
         this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.platform)
         this.physics.add.collider(this.player, this.platform1)
         this.physics.add.collider(this.player, this.platform1a)
+        this.physics.add.collider(this.player, this.platform1b)
+        this.physics.add.collider(this.player, this.platform1c)
         this.physics.add.collider(this.player, this.platform2)
         this.physics.add.collider(this.player, this.platform3)
         this.physics.add.collider(this.player, this.platform3a)
         this.physics.add.collider(this.player, this.platform4)
         this.physics.add.collider(this.player, this.platform4a)
         this.physics.add.collider(this.player, this.platform5)
+        this.physics.add.collider(this.player, this.platform5a)
+        this.physics.add.collider(this.player, this.platform5b)
+        this.physics.add.collider(this.player, this.platform5c)
+        this.physics.add.collider(this.player, this.platform5d)
+        this.physics.add.collider(this.player, this.platform6)
+        this.physics.add.collider(this.player, this.platform6a)
         this.createAnimations()
         this.cursor=this.input.keyboard.createCursorKeys()
 
@@ -128,6 +151,17 @@ export default class newPlatformerGameScene extends Phaser.Scene {
     update(){
         this.playerMovement()
         // this.player.anims.play('idle', true)
+
+        if (this.player.body.position.y > 490) {
+            // Player is on platform 1
+            console.log('Player is dead!');
+            this.player.setTint(0xff0000);
+        } else {
+            // Player is on platform 2
+            console.log('Player is alive!');
+            this.player.clearTint();
+            
+        }
     }
 
 
@@ -289,12 +323,23 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x: 62, y: 450,stepX: 48}
         })
     }   
-    createPlatform1ab(){
+    createPlatform1b(){
+        this.platform1ab = this.physics.add.staticGroup({
+            key: 'Terrain2',
+            frame: 3, 
+            repeat: 2,
+            setXY: {x: 1192, y: 343,stepX: 48}
+        })
+        this.platform1ab.children.iterate(ab => {
+            ab.setScale(1.5)
+        })
+    }   
+    createPlatform1c(){
         this.platform1ab = this.physics.add.staticGroup({
             key: 'Terrain2',
             frame: 3, 
             repeat: 1,
-            setXY: {x: 1095, y: 340,stepX: 48}
+            setXY: {x: 1240, y: 295,stepX: 48}
         })
         this.platform1ab.children.iterate(ab => {
             ab.setScale(1.5)
@@ -370,7 +415,55 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             key: 'Terrain',
             frame: 2, 
             repeat: 4,
-            setXY: {x: 1083, y: 300,stepX: 48}
+            setXY: {x: 1083, y: 400,stepX: 48}
+        })
+    }   
+    createPlatform5a(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 4,
+            setXY: {x: 1083, y: 440,stepX: 48}
+        })
+    }   
+    createPlatform5b(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 1,
+            setXY: {x: 1228, y: 255,stepX: 48}
+        })
+    }   
+    createPlatform5c(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 3,
+            setXY: {x: 1130, y: 489,stepX: 48}
+        })
+    }   
+    createPlatform5d(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 3,
+            setXY: {x: 1130, y: 538,stepX: 48}
+        })
+    }   
+    createPlatform6(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 3,
+            setXY: {x: 850, y: 170 ,stepX: 48}
+        })
+    }   
+    createPlatform6a(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 3,
+            setXY: {x: 850, y: 219,stepX: 48}
         })
     }   
 }
