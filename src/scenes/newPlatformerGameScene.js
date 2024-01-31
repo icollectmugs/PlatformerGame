@@ -12,6 +12,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.platform = undefined 
         this.Pineapple = undefined
         this.Apple = undefined
+        this.start = undefined
+        this.end = undefined
         this.platform1 = undefined
         this.platform1a = undefined
         this.platform1b = undefined
@@ -27,12 +29,26 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.platform5b = undefined
         this.platform5c = undefined
         this.platform5d = undefined
+        this.platform5e = undefined
         this.platform6 = undefined
         this.platform6a = undefined
+        this.platform6b = undefined
+        this.platform6c = undefined
+        this.platform6d = undefined
+        this.platform7 = undefined
+        this.platform7a = undefined
+        this.platform7b = undefined
     }
 
     preload(){
         this.load.image('background', 'images/Background/Green.png')
+
+        this.load.image('Start-Idle', 'images/Items/Checkpoints/Start/Start (Idle).png')
+        this.load.spritesheet('Start-Moving', 'images/Items/Checkpoints/Start/Start (Moving) (64x64).png',
+        {frameWidth:64, frameHeight:64})
+        this.load.image('End-Idle', 'images/Items/Checkpoints/End/End (Idle).png')
+        this.load.spritesheet('End-Moving', 'images/Items/Checkpoints/End/Start (Moving) (64x64).png',
+        {frameWidth:64, frameHeight:64})
         this.load.spritesheet('Main-Character', 'images/Main Characters/Ninja Frog/Idle (32x32).png',
         {frameWidth:32, frameHeight:32})
         this.load.spritesheet('Main-Character-Run', 'images/Main Characters/Ninja Frog/Run (32x32).png',
@@ -75,11 +91,19 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.createPlatform5b()
         this.createPlatform5c()
         this.createPlatform5d()
+        this.createPlatform5e()
         this.createPlatform6()
         this.createPlatform6a()
+        this.createPlatform6b()
+        this.createPlatform6c()
+        this.createPlatform6d()
+        this.createPlatform7()
+        this.createPlatform7a()
+        this.createPlatform7b()
 
         this.player=this.physics.add.sprite(100, 300, 'Main-Character').setScale(1.5)
         this.player.setCollideWorldBounds(true)
+        this.start=this.add.sprite(100, 385, 'Start-Moving').setScale(1.5)
         this.physics.add.collider(this.player, this.platform)
         this.physics.add.collider(this.player, this.platform1)
         this.physics.add.collider(this.player, this.platform1a)
@@ -95,8 +119,15 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platform5b)
         this.physics.add.collider(this.player, this.platform5c)
         this.physics.add.collider(this.player, this.platform5d)
+        this.physics.add.collider(this.player, this.platform5e)
         this.physics.add.collider(this.player, this.platform6)
         this.physics.add.collider(this.player, this.platform6a)
+        this.physics.add.collider(this.player, this.platform6b)
+        this.physics.add.collider(this.player, this.platform6c)
+        this.physics.add.collider(this.player, this.platform6d)
+        this.physics.add.collider(this.player, this.platform7)
+        this.physics.add.collider(this.player, this.platform7a)
+        this.physics.add.collider(this.player, this.platform7b)
         this.createAnimations()
         this.cursor=this.input.keyboard.createCursorKeys()
 
@@ -238,6 +269,14 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             key:'idle',
             frames: this.anims.generateFrameNumbers
                 ('Main-Character', {start:0, end:10}),
+            frameRate: 10,
+            repeat: -1
+        })
+        //animation Start_Moving Flag
+        this.anims.create({
+            key:'Start_Moving',
+            frames: this.anims.generateFrameNumbers
+                ('Start-Moving', {start:0, end:16}),
             frameRate: 10,
             repeat: -1
         })
@@ -450,6 +489,14 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x: 1130, y: 538,stepX: 48}
         })
     }   
+    createPlatform5e(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 1228, y: 586,stepX: 48}
+        })
+    }   
     createPlatform6(){
         this.platform5 = this.physics.add.staticGroup({
             key: 'Terrain',
@@ -464,6 +511,54 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             frame: 0, 
             repeat: 3,
             setXY: {x: 850, y: 219,stepX: 48}
+        })
+    }   
+    createPlatform6b(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 2,
+            setXY: {x: 500, y: 170,stepX: 48}
+        })
+    }   
+    createPlatform6c(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 500, y: 219,stepX: 48}
+        })
+    }   
+    createPlatform6d(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 0,
+            setXY: {x: 548, y: 267,stepX: 48}
+        })
+    }   
+    createPlatform7(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 2, 
+            repeat: 5,
+            setXY: {x: 24, y: 160,stepX: 48}
+        })
+    }   
+    createPlatform7a(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 4,
+            setXY: {x: 24, y: 208,stepX: 48}
+        })
+    }   
+    createPlatform7b(){
+        this.platform5 = this.physics.add.staticGroup({
+            key: 'Terrain',
+            frame: 0, 
+            repeat: 2,
+            setXY: {x: 24, y: 2,stepX: 48}
         })
     }   
 }
