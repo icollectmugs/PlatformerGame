@@ -12,8 +12,12 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.platform = undefined 
         this.Pineapple = undefined
         this.Apple = undefined
+        this.collectPineapple = undefined
+        this.collectAppleApple = undefined
         this.start = undefined
         this.end = undefined
+        this.scoreText = undefined
+        this.score = 0
         this.platform1 = undefined
         this.platform1a = undefined
         this.platform1b = undefined
@@ -137,6 +141,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x:40, y:0, stepX:60}
         })
         this.Pineapple.children.iterate(Pineapple=> {
+            // @ts-ignore
             Pineapple.setScale(2)
         })
         this.Apple = this.physics.add.group({
@@ -145,6 +150,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x:50, y:0, stepX:90}
         })
         this.Apple.children.iterate(Apple=> {
+            // @ts-ignore
             Apple.setScale(2)
         })
         this.physics.add.collider(this.Pineapple, this.platform)
@@ -157,9 +163,11 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.physics.add.collider(this.Apple, this.platform3)
 
         this.Pineapple.children.iterate(function(child){
+            // @ts-ignore
             child.setBounceY(0.2)
         })
         this.Apple.children.iterate(function(child){
+            // @ts-ignore
             child.setBounceY(0.2)
         })
 
@@ -177,6 +185,14 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             null,
             this
         )
+        this.add.text(1100, 20, 'Score:', {
+            // @ts-ignore
+            fontSize: '30px', fill:'white'
+        })
+        this.scoreText= this.add.text(16,16, 'Score : 0', {
+            // @ts-ignore
+            fontSize: '32px' fill: 'yellow'
+        })
     };
 
     update(){
@@ -346,12 +362,29 @@ export default class newPlatformerGameScene extends Phaser.Scene {
     collectPineapple(player, Pineapple){
         Pineapple.destroy()
         this.sound.play('collecting')
+
+    // @ts-ignore
+    // this.collectPineapple(player, Pineapple) 
+    //     Pineapple.destroy()
+
+    //     this.score += 10;
+    //     this.scoreText.setText('Score: '+this.score);
+        
     }
     //COLLECT APPLE
+    // @ts-ignore
     collectApple(player, Apple){
         Apple.destroy()
         this.sound.play('collecting')
+
+    // this.collectApple(player, Apple) 
+    //     Apple.destroy()
+
+    // this.score += 10;
+    //     this.scoreText.setText('Score: '+this.score);
+        
     }
+    
 
     // PLATFORM1
     createPlatform1a(){
@@ -370,6 +403,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x: 1192, y: 343,stepX: 48}
         })
         this.platform1ab.children.iterate(ab => {
+            // @ts-ignore
             ab.setScale(1.5)
         })
     }   
@@ -381,6 +415,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x: 1240, y: 295,stepX: 48}
         })
         this.platform1ab.children.iterate(ab => {
+            // @ts-ignore
             ab.setScale(1.5)
         })
     }   
@@ -558,7 +593,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
-            setXY: {x: 24, y: 2,stepX: 48}
+            setXY: {x: 24, y: 256,stepX: 48}
         })
     }   
 }
