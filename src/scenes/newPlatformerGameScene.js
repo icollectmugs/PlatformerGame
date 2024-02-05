@@ -11,7 +11,9 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         this.cursor = undefined
         this.platform = undefined 
         this.Pineapple = undefined
+        this.Pineapple2 = undefined
         this.Apple = undefined
+        this.Apple2 = undefined
         this.collectPineapple = undefined
         this.collectAppleApple = undefined
         this.start = undefined
@@ -46,169 +48,164 @@ export default class newPlatformerGameScene extends Phaser.Scene {
 
     preload(){
         this.load.image('background', 'images/Background/Green.png')
-
-        this.load.image('Start-Idle', 'images/Items/Checkpoints/Start/Start (Idle).png')
+        this.load.image('Lava', 'images/Lava.jpg')
+        this.load.image('Terrain', 'images/Terrain-Gray.png')
+        this.load.image('Terrain2', 'images/Terrain-Pocket-Green.png')
+        this.load.image('Terrain3', 'images/Terrain-Green.png')
+        //
+        //
+        //CHECK POINTS
         this.load.spritesheet('Start-Moving', 'images/Items/Checkpoints/Start/Start (Moving) (64x64).png',
         {frameWidth:64, frameHeight:64})
-        this.load.image('End-Idle', 'images/Items/Checkpoints/End/End (Idle).png')
-        this.load.spritesheet('End-Moving', 'images/Items/Checkpoints/End/Start (Moving) (64x64).png',
+        this.load.spritesheet('End-Moving', 'images/Items/Checkpoints/End/End (Pressed) (64x64).png',
         {frameWidth:64, frameHeight:64})
+        //
+        //
+        //PLAYER
         this.load.spritesheet('Main-Character', 'images/Main Characters/Ninja Frog/Idle (32x32).png',
         {frameWidth:32, frameHeight:32})
         this.load.spritesheet('Main-Character-Run', 'images/Main Characters/Ninja Frog/Run (32x32).png',
         {frameWidth:32, frameHeight:32})
         this.load.spritesheet('Main-Character-Jump', 'images/Main Characters/Ninja Frog/Wall Jump (32x32).png',
         {frameWidth:32, frameHeight:32})
-        this.load.spritesheet('Terrain', 'images/Terrain/Terrain (16x16).png',
-        {frameWidth:48, frameHeight:64})
-        this.load.spritesheet('Terrain2', 'images/Terrain/Terrain (16x16).png',
-        {frameWidth:48, frameHeight:32})
-        this.load.image('Lava', 'images/Lava.jpg')
+        //
+        //
+        //COLLECT ITEM
         this.load.spritesheet('Pineapple', 'images/Items/Fruits/Pineapple.png',
         {frameWidth:32, frameHeight:32})
         this.load.spritesheet('Apple', 'images/Items/Fruits/Apple.png',
         {frameWidth:32, frameHeight:32})
-
+        //
+        //
+        // SFX
         this.load.audio('bgsound', 'sfx/movingrightalong.wav')
         this.load.audio('jump', 'sfx/Jump-SoundBible.com-1007297584.mp3')
-        this.load.audio('collecting', 'sfx/Picked Coin Echo 2.wav')
-        this.load.audio('menu', 'sfx/Picked Coin Echo 2.wav')
+        this.load.audio('collecting', 'sfx/Picked Coin Echo.wav')
     }
 
     create(){
         this.addBackground()
-        
         this.groundPlatform()
-        this.createPlatform1()
-        this.createPlatform1a()
-        this.createPlatform1b()
-        this.createPlatform1c()
-        this.createPlatform2()
-        this.createPlatform2a()
-        this.createPlatform2b()
-        this.createPlatform3()
-        this.createPlatform3a()
-        this.createPlatform4()
-        this.createPlatform4a()
-        this.createPlatform5()
-        this.createPlatform5a()
-        this.createPlatform5b()
-        this.createPlatform5c()
-        this.createPlatform5d()
-        this.createPlatform5e()
-        this.createPlatform6()
-        this.createPlatform6a()
-        this.createPlatform6b()
-        this.createPlatform6c()
-        this.createPlatform6d()
-        this.createPlatform7()
-        this.createPlatform7a()
-        this.createPlatform7b()
+        //
+        //
+        this.allPlatform()
+        //
+        //
 
+        this.start=this.add.sprite(100, 378, 'Start-Moving').setScale(1.5)
+        this.end=this.add.sprite(50, 105, 'End-Moving')
+        //
+        //
+        this.createAnimations()
         this.player=this.physics.add.sprite(100, 300, 'Main-Character').setScale(1.5)
         this.player.setCollideWorldBounds(true)
-        this.start=this.add.sprite(100, 385, 'Start-Moving').setScale(1.5)
-        this.physics.add.collider(this.player, this.platform)
-        this.physics.add.collider(this.player, this.platform1)
-        this.physics.add.collider(this.player, this.platform1a)
-        this.physics.add.collider(this.player, this.platform1b)
-        this.physics.add.collider(this.player, this.platform1c)
-        this.physics.add.collider(this.player, this.platform2)
-        this.physics.add.collider(this.player, this.platform3)
-        this.physics.add.collider(this.player, this.platform3a)
-        this.physics.add.collider(this.player, this.platform4)
-        this.physics.add.collider(this.player, this.platform4a)
-        this.physics.add.collider(this.player, this.platform5)
-        this.physics.add.collider(this.player, this.platform5a)
-        this.physics.add.collider(this.player, this.platform5b)
-        this.physics.add.collider(this.player, this.platform5c)
-        this.physics.add.collider(this.player, this.platform5d)
-        this.physics.add.collider(this.player, this.platform5e)
-        this.physics.add.collider(this.player, this.platform6)
-        this.physics.add.collider(this.player, this.platform6a)
-        this.physics.add.collider(this.player, this.platform6b)
-        this.physics.add.collider(this.player, this.platform6c)
-        this.physics.add.collider(this.player, this.platform6d)
-        this.physics.add.collider(this.player, this.platform7)
-        this.physics.add.collider(this.player, this.platform7a)
-        this.physics.add.collider(this.player, this.platform7b)
-        this.createAnimations()
+        this.playerCollide()
+        
         this.cursor=this.input.keyboard.createCursorKeys()
+        //
+        //
+        //
+        //
+        this.createPineapple()
+        this.createApple()
+        this.pineappleCollide()
+        this.appleCollide()
+        //
+        //
 
-        this.Pineapple = this.physics.add.group({
-            key:'Pineapple',
-            repeat: 10,
-            setXY: {x:40, y:0, stepX:60}
-        })
-        this.Pineapple.children.iterate(Pineapple=> {
-            // @ts-ignore
-            Pineapple.setScale(2)
-        })
-        this.Apple = this.physics.add.group({
-            key:'Apple',
-            repeat: 15,
-            setXY: {x:50, y:0, stepX:90}
-        })
-        this.Apple.children.iterate(Apple=> {
-            // @ts-ignore
-            Apple.setScale(2)
-        })
-        this.physics.add.collider(this.Pineapple, this.platform)
-        this.physics.add.collider(this.Apple, this.platform)
-        this.physics.add.collider(this.Pineapple, this.platform1)
-        this.physics.add.collider(this.Apple, this.platform1)
-        this.physics.add.collider(this.Pineapple, this.platform2)
-        this.physics.add.collider(this.Apple, this.platform2)
-        this.physics.add.collider(this.Pineapple, this.platform3)
-        this.physics.add.collider(this.Apple, this.platform3)
-
-        this.Pineapple.children.iterate(function(child){
-            // @ts-ignore
-            child.setBounceY(0.2)
-        })
-        this.Apple.children.iterate(function(child){
-            // @ts-ignore
-            child.setBounceY(0.2)
-        })
-
+       
+        //OVERLAP METHOD
         this.physics.add.overlap(
             this.player,
             this.Pineapple,
-            this.collectPineapple,
+            this.collect,
+            null,
+            this
+        )
+        this.physics.add.overlap(
+            this.player,
+            this.Pineapple2,
+            this.collect2,
             null,
             this
         )
         this.physics.add.overlap(
             this.player,
             this.Apple,
-            this.collectApple,
+            this.collectA,
             null,
             this
         )
-        this.add.text(1100, 20, 'Score:', {
+        this.physics.add.overlap(
+            this.player,
+            this.Apple2,
+            this.collectA2,
+            null,
+            this
+        )
+        //
+        //
+
+        //DISPLAY SCORE
+        this.add.text(16, 16, 'Score', {
             // @ts-ignore
-            fontSize: '30px', fill:'white'
+            fontSize: '32px', fill:'white'
         })
         this.scoreText= this.add.text(16,16, 'Score : 0', {
             // @ts-ignore
-            fontSize: '32px' fill: 'yellow'
+            fontSize: '32px', fill: 'yellow'
         })
-    };
+    }
 
     update(){
         this.playerMovement()
-        // this.player.anims.play('idle', true)
+        if(this.player.body.position.x <= 50 && this.player.body.position.y <= 105){
+            this.physics.pause()
+            console.log('YOU WIN')
+            this.add.text(300, 300, 'You Win BRO!!!', {
+                fontSize: '64px', fill: 'red'
+            })
+        }
 
         if (this.player.body.position.y > 490) {
             // Player is on platform 1
+            this.physics.pause()
             console.log('Player is dead!');
             this.player.setTint(0xff0000);
-        } else {
-            // Player is on platform 2
-            console.log('Player is alive!');
-            this.player.clearTint();
-            
-        }
+            this.add.text(300, 300, 'You DEAD BRO!!!', {
+                fontSize: '64px', fill: 'red'
+            })
+        } 
+
+        
+    }
+
+    collect(player, Pineapple){
+        Pineapple.destroy()
+        this.sound.play('collecting')
+        this.score += 10;
+        this.scoreText.setText('Score : ' + this.score);
+        
+        
+    }
+    collect2(player, Pineapple2){
+        Pineapple2.destroy()
+        this.sound.play('collecting')
+        this.score += 10;
+        this.scoreText.setText('Score : ' + this.score);
+    }
+
+    collectA(player, Apple){
+        Apple.destroy()
+        this.sound.play('collecting')
+        this.score += 10;
+        this.scoreText.setText('Score : ' + this.score);
+    }
+    collectA2(player, Apple2){
+        Apple2.destroy()
+        this.sound.play('collecting')
+        this.score += 10;
+        this.scoreText.setText('Score : ' + this.score);
     }
 
 
@@ -221,16 +218,6 @@ export default class newPlatformerGameScene extends Phaser.Scene {
     }
 
     groundPlatform(){
-        // this.platform = this.physics.add.staticGroup({
-        //     key: 'Lava',
-        //     repeat: 22,
-        //     setXY: {x: 30, y:575, stepX: 58}
-        // })
-        // this.platform.children.iterate(ground => {
-        //     ground.setScale(0.2)
-        // })
-        // this.platform.create(30, 575, 'Lava').setScale(0.2)
-
         this.platform = this.physics.add.staticGroup()
             this.platform.create(25, 575, 'Lava').setScale(0.2).refreshBody()
             this.platform.create(75, 575, 'Lava').setScale(0.2).refreshBody()
@@ -264,7 +251,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
 
     //CREATE PLAYER ANIMATIONS
     createAnimations(){
-        //animation to the left
+        // animation to the left
         this.anims.create({
             key:'left',
             frames: this.anims.generateFrameNumbers
@@ -272,7 +259,7 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         })
-        //animation to the right
+        // animation to the right
         this.anims.create({
             key:'right',
             frames: this.anims.generateFrameNumbers
@@ -289,13 +276,13 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             repeat: -1
         })
         //animation Start_Moving Flag
-        this.anims.create({
-            key:'Start_Moving',
-            frames: this.anims.generateFrameNumbers
-                ('Start-Moving', {start:0, end:16}),
-            frameRate: 10,
-            repeat: -1
-        })
+        // this.anims.create({
+        //     key:'Start_Moving',
+        //     frames: this.anims.generateFrameNumbers
+        //         ('Start-Moving', {start:0, end:16}),
+        //     frameRate: 10,
+        //     repeat: -1
+        // })
         //animation jump
         this.anims.create({
             key:'jump',
@@ -305,6 +292,8 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             repeat: -1
         })
     }
+    //
+    //
 
     // PLAYER MOVEMENT
     playerMovement(){
@@ -317,30 +306,19 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             this.player.anims.play('right', true)
         }
         else{
-            this.player.setVelocity(0, 200)
+            this.player.setVelocityX(0)
             this.player.anims.play('idle', true)
         }
-
-         // Player Movement
-        // if (this.cursor.left.isDown) {
-        //     this.player.setVelocity(-120, 500).setFlipX(true);
-        //     this.player.anims.play('left', true);
-        // } else if (this.cursor.right.isDown) {
-        //     this.player.setVelocity(120, 500).setFlipX(false);
-        //     this.player.anims.play('main-player-run-right', true);
-        // } else {
-        //     this.player.setVelocityX(0);
-        // }
         
         let isJumping = false;
         // Vertical Movement (Jump)
         if (this.cursor.up.isDown && !isJumping) {
             // Start the jump
             this.player.setVelocityY(-200);
-            this.player.anims.play('main-player-jump', true);
+            this.player.anims.play('jump', true);
             isJumping = true;
             // Set a timer to limit the jump duration (adjust the delay as needed)
-            this.time.delayedCall(400, () => {
+            this.time.delayedCall(800, () => {
                 // Stop the jump after the specified delay (500 milliseconds in this example)
                 this.player.setVelocityY(200); // Apply downward velocity to end the jump
                 isJumping = false;
@@ -354,71 +332,16 @@ export default class newPlatformerGameScene extends Phaser.Scene {
         }
         // Play standby animation when not moving
         if (!this.cursor.left.isDown && !this.cursor.right.isDown && !this.cursor.up.isDown) {
-            this.player.anims.play('main-player-standby', true);
+            this.player.anims.play('idle', true);
         }
     }
-    
-    //COLLECT PINEAPPLE
-    collectPineapple(player, Pineapple){
-        Pineapple.destroy()
-        this.sound.play('collecting')
-
-    // @ts-ignore
-    // this.collectPineapple(player, Pineapple) 
-    //     Pineapple.destroy()
-
-    //     this.score += 10;
-    //     this.scoreText.setText('Score: '+this.score);
-        
-    }
-    //COLLECT APPLE
-    // @ts-ignore
-    collectApple(player, Apple){
-        Apple.destroy()
-        this.sound.play('collecting')
-
-    // this.collectApple(player, Apple) 
-    //     Apple.destroy()
-
-    // this.score += 10;
-    //     this.scoreText.setText('Score: '+this.score);
-        
-    }
+    //
+    //
     
 
-    // PLATFORM1
-    createPlatform1a(){
-        this.platform1a = this.physics.add.staticGroup({
-            key: 'Terrain',
-            frame: 2, 
-            repeat: 2,
-            setXY: {x: 62, y: 450,stepX: 48}
-        })
-    }   
-    createPlatform1b(){
-        this.platform1ab = this.physics.add.staticGroup({
-            key: 'Terrain2',
-            frame: 3, 
-            repeat: 2,
-            setXY: {x: 1192, y: 343,stepX: 48}
-        })
-        this.platform1ab.children.iterate(ab => {
-            // @ts-ignore
-            ab.setScale(1.5)
-        })
-    }   
-    createPlatform1c(){
-        this.platform1ab = this.physics.add.staticGroup({
-            key: 'Terrain2',
-            frame: 3, 
-            repeat: 1,
-            setXY: {x: 1240, y: 295,stepX: 48}
-        })
-        this.platform1ab.children.iterate(ab => {
-            // @ts-ignore
-            ab.setScale(1.5)
-        })
-    }   
+    
+
+    // PLATFORM1========================
     createPlatform1(){
         this.platform1 = this.physics.add.staticGroup({
             key: 'Terrain',
@@ -426,40 +349,90 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             repeat: 2,
             setXY: {x: 62, y: 498,stepX: 48}
         })
+    }
+    //
+    //
+    createPlatform1a(){
+        this.platform1a = this.physics.add.staticGroup({
+            key: 'Terrain3',
+            frame: 2, 
+            repeat: 2,
+            setXY: {x: 62, y: 450,stepX: 48}
+        })
     }   
-    // PLATFORM2
+    //
+    //
+    createPlatform1b(){
+        this.platform1b = this.physics.add.staticGroup({
+            key: 'Terrain2',
+            frame: 3, 
+            repeat: 2,
+            setXY: {x: 1180, y: 338,stepX: 48}
+        })
+        this.platform1b.children.iterate(ab => {
+            // @ts-ignore
+            ab.setScale(1.5).refreshBody()
+        })
+    } 
+    //
+    //  
+    createPlatform1c(){
+        this.platform1c = this.physics.add.staticGroup({
+            key: 'Terrain2',
+            frame: 3, 
+            repeat: 1,
+            setXY: {x: 1228, y: 290,stepX: 48}
+        })
+        this.platform1c.children.iterate(ab => {
+            // @ts-ignore
+            ab.setScale(1.5).refreshBody()
+        })
+    }   
+    //
+    //
+       
+    // PLATFORM2========================
     createPlatform2(){
         this.platform2 = this.physics.add.staticGroup({
-            key: 'Terrain',
+            key: 'Terrain3',
             frame: 2, 
             repeat: 2,
             setXY: {x: 300, y: 420,stepX: 48}
         })
-    }   
+    }
+    //
+    //
     createPlatform2a(){
         this.platform2a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
-            setXY: {x: 300, y: 465,stepX: 48}
+            setXY: {x: 300, y: 468,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform2b(){
         this.platform2b = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
-            setXY: {x: 348, y: 513}
+            setXY: {x: 348, y: 516}
         })
     }   
-    // PLATFORM2
+    //
+    //
+
+    // PLATFORM3========================
     createPlatform3(){
         this.platform3 = this.physics.add.staticGroup({
-            key: 'Terrain',
+            key: 'Terrain3',
             frame: 2, 
             repeat: 2,
             setXY: {x: 550, y: 400,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform3a(){
         this.platform3a = this.physics.add.staticGroup({
             key: 'Terrain',
@@ -468,132 +441,416 @@ export default class newPlatformerGameScene extends Phaser.Scene {
             setXY: {x: 550, y: 448,stepX: 48}
         })
     }   
+    //
+    //
+
+    // PLATFORM4========================
     createPlatform4(){
         this.platform4 = this.physics.add.staticGroup({
-            key: 'Terrain',
+            key: 'Terrain3',
             frame: 2, 
             repeat: 2,
             setXY: {x: 800, y: 400,stepX: 48}
         })
-    }   
+    }
+    //
+    //   
     createPlatform4a(){
-        this.platform4 = this.physics.add.staticGroup({
+        this.platform4a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
             setXY: {x: 800, y: 448,stepX: 48}
         })
     }   
+    //
+    //
+
+    // PLATFORM5========================
     createPlatform5(){
         this.platform5 = this.physics.add.staticGroup({
-            key: 'Terrain',
+            key: 'Terrain3',
             frame: 2, 
             repeat: 4,
-            setXY: {x: 1083, y: 400,stepX: 48}
+            setXY: {x: 1084, y: 385,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform5a(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform5a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 4,
-            setXY: {x: 1083, y: 440,stepX: 48}
+            setXY: {x: 1084, y: 433,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform5b(){
-        this.platform5 = this.physics.add.staticGroup({
-            key: 'Terrain',
+        this.platform5b = this.physics.add.staticGroup({
+            key: 'Terrain3',
             frame: 2, 
             repeat: 1,
-            setXY: {x: 1228, y: 255,stepX: 48}
+            setXY: {x: 1228, y: 242,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform5c(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform5c = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 3,
-            setXY: {x: 1130, y: 489,stepX: 48}
+            setXY: {x: 1132, y: 481,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform5d(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform5d = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 3,
-            setXY: {x: 1130, y: 538,stepX: 48}
+            setXY: {x: 1132, y: 529,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform5e(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform5e = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
-            setXY: {x: 1228, y: 586,stepX: 48}
+            setXY: {x: 1180, y: 577,stepX: 48}
         })
     }   
+    //
+    //
+
+    // PLATFORM6========================
     createPlatform6(){
-        this.platform5 = this.physics.add.staticGroup({
-            key: 'Terrain',
+        this.platform6 = this.physics.add.staticGroup({
+            key: 'Terrain3',
             frame: 2, 
             repeat: 3,
-            setXY: {x: 850, y: 170 ,stepX: 48}
+            setXY: {x: 850, y: 171 ,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform6a(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform6a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 3,
             setXY: {x: 850, y: 219,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform6b(){
-        this.platform5 = this.physics.add.staticGroup({
-            key: 'Terrain',
+        this.platform6b = this.physics.add.staticGroup({
+            key: 'Terrain3',
             frame: 2, 
             repeat: 2,
-            setXY: {x: 500, y: 170,stepX: 48}
+            setXY: {x: 500, y: 171,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform6c(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform6c = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
             setXY: {x: 500, y: 219,stepX: 48}
         })
-    }   
+    }  
+    //
+    // 
     createPlatform6d(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform6d = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 0,
             setXY: {x: 548, y: 267,stepX: 48}
         })
     }   
+    //
+    //
+
+    // PLATFORM 7 ========================
     createPlatform7(){
-        this.platform5 = this.physics.add.staticGroup({
-            key: 'Terrain',
+        this.platform7 = this.physics.add.staticGroup({
+            key: 'Terrain3',
             frame: 2, 
             repeat: 5,
             setXY: {x: 24, y: 160,stepX: 48}
         })
     }   
+    //
+    //
     createPlatform7a(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform7a = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 4,
             setXY: {x: 24, y: 208,stepX: 48}
         })
-    }   
+    }  
+    //
+    // 
     createPlatform7b(){
-        this.platform5 = this.physics.add.staticGroup({
+        this.platform7b = this.physics.add.staticGroup({
             key: 'Terrain',
             frame: 0, 
             repeat: 2,
             setXY: {x: 24, y: 256,stepX: 48}
         })
     }   
+    //
+    //
+
+    // ALL PLATFORM
+    allPlatform(){
+        this.createPlatform1()
+        this.createPlatform1a()
+        this.createPlatform1b()
+        this.createPlatform1c()
+        //
+        //
+        this.createPlatform2()
+        this.createPlatform2a()
+        this.createPlatform2b()
+        //
+        //
+        this.createPlatform3()
+        this.createPlatform3a()
+        //
+        //
+        this.createPlatform4()
+        this.createPlatform4a()
+        //
+        //
+        this.createPlatform5()
+        this.createPlatform5a()
+        this.createPlatform5b()
+        this.createPlatform5c()
+        this.createPlatform5d()
+        this.createPlatform5e()
+        //
+        //
+        this.createPlatform6()
+        this.createPlatform6a()
+        this.createPlatform6b()
+        this.createPlatform6c()
+        this.createPlatform6d()
+        //
+        //
+        this.createPlatform7()
+        this.createPlatform7a()
+        this.createPlatform7b()
+    }
+
+    //PLAYER COLLIDER
+    playerCollide(){
+                this.physics.add.collider(this.player, this.platform) // Collide with Ground Platform
+        this.physics.add.collider(this.player, this.platform1) // Collide with platform 1
+        this.physics.add.collider(this.player, this.platform1a) // Collide with platform 1a
+        this.physics.add.collider(this.player, this.platform1b) // Collide with platform 1b
+        this.physics.add.collider(this.player, this.platform1c) // Collide with platform 1c
+        //
+        //
+        this.physics.add.collider(this.player, this.platform2)
+        this.physics.add.collider(this.player, this.platform2a)
+        this.physics.add.collider(this.player, this.platform2b)
+        //
+        //
+        this.physics.add.collider(this.player, this.platform3)
+        this.physics.add.collider(this.player, this.platform3a)
+        //
+        //
+        this.physics.add.collider(this.player, this.platform4)
+        this.physics.add.collider(this.player, this.platform4a)
+        //
+        //
+        this.physics.add.collider(this.player, this.platform5)
+        this.physics.add.collider(this.player, this.platform5a)
+        this.physics.add.collider(this.player, this.platform5b)
+        this.physics.add.collider(this.player, this.platform5c)
+        this.physics.add.collider(this.player, this.platform5d)
+        this.physics.add.collider(this.player, this.platform5e)
+        //
+        //
+        this.physics.add.collider(this.player, this.platform6)
+        this.physics.add.collider(this.player, this.platform6a)
+        this.physics.add.collider(this.player, this.platform6b)
+        this.physics.add.collider(this.player, this.platform6c)
+        this.physics.add.collider(this.player, this.platform6d)
+        //
+        //
+        this.physics.add.collider(this.player, this.platform7)
+        this.physics.add.collider(this.player, this.platform7a)
+        this.physics.add.collider(this.player, this.platform7b)
+
+    }
+
+    //PINEAPPLE
+    createPineapple(){
+        this.Pineapple = this.physics.add.group({
+            key:'Pineapple',
+            repeat: 10,
+            setXY: {x:0, y:0, stepX:60}
+        })
+        this.Pineapple.children.iterate(pine=> {
+            // @ts-ignore
+            pine.setScale(1.7)
+        })
+        this.Pineapple2 = this.physics.add.group({
+            key:'Pineapple',
+            repeat: 8,
+            setXY: {x:500, y:300, stepX:60}
+        })
+        this.Pineapple2.children.iterate(child=> {
+            // @ts-ignore
+            child.setScale(1.7).setBounceY(0.5)
+        })
+    }
+
+    pineappleCollide(){
+        this.physics.add.collider(this.Pineapple, this.platform1)
+        this.physics.add.collider(this.Pineapple, this.platform1a)
+        this.physics.add.collider(this.Pineapple, this.platform1b)
+        this.physics.add.collider(this.Pineapple, this.platform1c)
+        this.physics.add.collider(this.Pineapple, this.platform2)
+        this.physics.add.collider(this.Pineapple, this.platform2a)
+        this.physics.add.collider(this.Pineapple, this.platform2b)
+        this.physics.add.collider(this.Pineapple, this.platform3)
+        this.physics.add.collider(this.Pineapple, this.platform3a)
+        this.physics.add.collider(this.Pineapple, this.platform4)
+        this.physics.add.collider(this.Pineapple, this.platform4a)
+        this.physics.add.collider(this.Pineapple, this.platform5)
+        this.physics.add.collider(this.Pineapple, this.platform5a)
+        this.physics.add.collider(this.Pineapple, this.platform5b)
+        this.physics.add.collider(this.Pineapple, this.platform5c)
+        this.physics.add.collider(this.Pineapple, this.platform5d)
+        this.physics.add.collider(this.Pineapple, this.platform5e)
+        this.physics.add.collider(this.Pineapple, this.platform6)
+        this.physics.add.collider(this.Pineapple, this.platform6a)
+        this.physics.add.collider(this.Pineapple, this.platform6b)
+        this.physics.add.collider(this.Pineapple, this.platform6c)
+        this.physics.add.collider(this.Pineapple, this.platform6d)
+        this.physics.add.collider(this.Pineapple, this.platform7)
+        this.physics.add.collider(this.Pineapple, this.platform7a)
+        this.physics.add.collider(this.Pineapple, this.platform7b)
+        //
+        //
+        this.physics.add.collider(this.Pineapple2, this.platform1)
+        this.physics.add.collider(this.Pineapple2, this.platform1a)
+        this.physics.add.collider(this.Pineapple2, this.platform1b)
+        this.physics.add.collider(this.Pineapple2, this.platform1c)
+        this.physics.add.collider(this.Pineapple2, this.platform2)
+        this.physics.add.collider(this.Pineapple2, this.platform2a)
+        this.physics.add.collider(this.Pineapple2, this.platform2b)
+        this.physics.add.collider(this.Pineapple2, this.platform3)
+        this.physics.add.collider(this.Pineapple2, this.platform3a)
+        this.physics.add.collider(this.Pineapple2, this.platform4)
+        this.physics.add.collider(this.Pineapple2, this.platform4a)
+        this.physics.add.collider(this.Pineapple2, this.platform5)
+        this.physics.add.collider(this.Pineapple2, this.platform5a)
+        this.physics.add.collider(this.Pineapple2, this.platform5b)
+        this.physics.add.collider(this.Pineapple2, this.platform5c)
+        this.physics.add.collider(this.Pineapple2, this.platform5d)
+        this.physics.add.collider(this.Pineapple2, this.platform5e)
+        this.physics.add.collider(this.Pineapple2, this.platform6)
+        this.physics.add.collider(this.Pineapple2, this.platform6a)
+        this.physics.add.collider(this.Pineapple2, this.platform6b)
+        this.physics.add.collider(this.Pineapple2, this.platform6c)
+        this.physics.add.collider(this.Pineapple2, this.platform6d)
+        this.physics.add.collider(this.Pineapple2, this.platform7)
+        this.physics.add.collider(this.Pineapple2, this.platform7a)
+        this.physics.add.collider(this.Pineapple2, this.platform7b)
+    }
+    //
+    //
+
+    //APPLE
+    createApple(){
+        this.Apple = this.physics.add.group({
+            key:'Apple',
+            repeat: 6,
+            setXY: {x:800, y:0, stepX:60}
+        })
+        this.Apple.children.iterate(apple=> {
+            // @ts-ignore
+            apple.setScale(1.7).refreshBody()
+        })
+        this.Apple2 = this.physics.add.group({
+            key:'Apple',
+            repeat: 10,
+            setXY: {x:90, y:300, stepX:90}
+        })
+        this.Apple2.children.iterate(apple=> {
+            // @ts-ignore
+            apple.setScale(1.7).refreshBody()
+        })
+    }
+    //
+    //
+    appleCollide(){
+        this.physics.add.collider(this.Apple, this.platform1)
+        this.physics.add.collider(this.Apple, this.platform1a)
+        this.physics.add.collider(this.Apple, this.platform1b)
+        this.physics.add.collider(this.Apple, this.platform1c)
+        this.physics.add.collider(this.Apple, this.platform2)
+        this.physics.add.collider(this.Apple, this.platform2a)
+        this.physics.add.collider(this.Apple, this.platform2b)
+        this.physics.add.collider(this.Apple, this.platform3)
+        this.physics.add.collider(this.Apple, this.platform3a)
+        this.physics.add.collider(this.Apple, this.platform4)
+        this.physics.add.collider(this.Apple, this.platform4a)
+        this.physics.add.collider(this.Apple, this.platform5)
+        this.physics.add.collider(this.Apple, this.platform5a)
+        this.physics.add.collider(this.Apple, this.platform5b)
+        this.physics.add.collider(this.Apple, this.platform5c)
+        this.physics.add.collider(this.Apple, this.platform5d)
+        this.physics.add.collider(this.Apple, this.platform5e)
+        this.physics.add.collider(this.Apple, this.platform6)
+        this.physics.add.collider(this.Apple, this.platform6a)
+        this.physics.add.collider(this.Apple, this.platform6b)
+        this.physics.add.collider(this.Apple, this.platform6c)
+        this.physics.add.collider(this.Apple, this.platform6d)
+        this.physics.add.collider(this.Apple, this.platform7)
+        this.physics.add.collider(this.Apple, this.platform7a)
+        this.physics.add.collider(this.Apple, this.platform7b)
+        //
+        //
+        // this.physics.add.collider(this.Apple2, this.platform)
+        this.physics.add.collider(this.Apple2, this.platform1)
+        this.physics.add.collider(this.Apple2, this.platform1a)
+        this.physics.add.collider(this.Apple2, this.platform1b)
+        this.physics.add.collider(this.Apple2, this.platform1c)
+        this.physics.add.collider(this.Apple2, this.platform2)
+        this.physics.add.collider(this.Apple2, this.platform2a)
+        this.physics.add.collider(this.Apple2, this.platform2b)
+        this.physics.add.collider(this.Apple2, this.platform3)
+        this.physics.add.collider(this.Apple2, this.platform3a)
+        this.physics.add.collider(this.Apple2, this.platform4)
+        this.physics.add.collider(this.Apple2, this.platform4a)
+        this.physics.add.collider(this.Apple2, this.platform5)
+        this.physics.add.collider(this.Apple2, this.platform5a)
+        this.physics.add.collider(this.Apple2, this.platform5b)
+        this.physics.add.collider(this.Apple2, this.platform5c)
+        this.physics.add.collider(this.Apple2, this.platform5d)
+        this.physics.add.collider(this.Apple2, this.platform5e)
+        this.physics.add.collider(this.Apple2, this.platform6)
+        this.physics.add.collider(this.Apple2, this.platform6a)
+        this.physics.add.collider(this.Apple2, this.platform6b)
+        this.physics.add.collider(this.Apple2, this.platform6c)
+        this.physics.add.collider(this.Apple2, this.platform6d)
+        this.physics.add.collider(this.Apple2, this.platform7)
+        this.physics.add.collider(this.Apple2, this.platform7a)
+        this.physics.add.collider(this.Apple2, this.platform7b)
+    }
 }
